@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+*.egg-info/
+dist/
+build/
+.DS_Store
+*.log
+# Keep yolo model in repo for Railway deployment
+# yolo26n.pt
