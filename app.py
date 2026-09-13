@@ -1,8 +1,9 @@
 import os
 import sys
 
-# Set environment variable to use headless OpenCV before importing cv2/ultralytics
-os.environ['OPENCV_IO_ENABLE_OPENEXR'] = '1'
+# Set environment variables for headless OpenCV
+os.environ['DISPLAY'] = ''
+os.environ['PYTORCH_ENABLE_MPS_FALLBACK'] = '1'
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
