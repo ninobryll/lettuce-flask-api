@@ -17,6 +17,8 @@ Flask API for plant disease detection using a local YOLO model for deployment on
 
 This API uses a local YOLO model (`yolo26n.pt`) for plant disease detection. The model is included in the repository for easy deployment to Railway without requiring external API payments.
 
+**Note**: The API uses `opencv-python-headless` instead of regular `opencv-python` to avoid GUI library dependencies on Railway's cloud environment.
+
 ## Endpoints
 
 ### Health Check

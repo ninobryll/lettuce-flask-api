@@ -1,3 +1,9 @@
+import os
+import sys
+
+# Set environment variable to use headless OpenCV before importing cv2/ultralytics
+os.environ['OPENCV_IO_ENABLE_OPENEXR'] = '1'
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import torch
@@ -7,7 +13,6 @@ from urllib.parse import urlparse
 import requests
 from io import BytesIO
 from PIL import Image
-import os
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
