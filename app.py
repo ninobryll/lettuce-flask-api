@@ -47,6 +47,19 @@ def load_model():
             # Don't raise - let the request handle the error gracefully
     return model
 
+# Load model at module import time for gunicorn workers
+# This ensures the model is loaded when gunicorn starts the workers
+try:
+    logger.info("Application startup - loading YOLO model...")
+    load_model()
+    if model is not None:
+        logger.info("YOLO model loaded successfully at startup")
+    else:
+        logger.warning("YOLO model failed to load at startup, will retry on first request")
+except Exception as e:
+    logger.error(f"Error loading YOLO model at startup: {e}")
+    logger.warning("Model will be loaded on first request")
+
 def is_valid_url(url):
     """Validate if the URL is from allowed domains"""
     try:
@@ -272,14 +285,24 @@ def predict_batch():
             "success": False
         }), 500
 
-if __name__ == '__main__':
-    # Load model at startup for Railway to avoid cold start delays
+# Load model at module import time for gunicorn workers
+# This ensures the model is loaded when gunicorn starts the workers
+# Load model at module import time for gunicorn workers
+# This ensures the model is loaded when gunicorn starts the workers
+try:
     logger.info("Application startup - loading YOLO model...")
     load_model()
     if model is not None:
         logger.info("YOLO model loaded successfully at startup")
     else:
         logger.warning("YOLO model failed to load at startup, will retry on first request")
+except Exception as e:
+    logger.error(f"Error loading YOLO model at startup: {e}")
+    logger.warning("Model will be loaded on first request")
+
+if __name__ == '__main__':
+    # For local development - model already loaded at import time
+    logger.info("Application startup - YOLO model already loaded at import time")
     
     # Run the app with production settings
     port = int(os.environ.get('PORT', 5000))
