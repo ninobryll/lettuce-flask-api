@@ -273,8 +273,13 @@ def predict_batch():
         }), 500
 
 if __name__ == '__main__':
-    # Don't load model at startup - use lazy loading to avoid memory issues
-    logger.info("Application startup - YOLO model will be loaded on demand")
+    # Load model at startup for Railway to avoid cold start delays
+    logger.info("Application startup - loading YOLO model...")
+    load_model()
+    if model is not None:
+        logger.info("YOLO model loaded successfully at startup")
+    else:
+        logger.warning("YOLO model failed to load at startup, will retry on first request")
     
     # Run the app with production settings
     port = int(os.environ.get('PORT', 5000))
